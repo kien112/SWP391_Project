@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <link href="CSS/styles.css" rel="stylesheet" type="text/css"/>
 
-<footer id="footer" class="section footer">
+<footer id="footer" class="section footer mt-5">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <div class="container">
         <div class="footer-container">

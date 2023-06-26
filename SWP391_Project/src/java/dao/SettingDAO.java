@@ -41,13 +41,28 @@ public class SettingDAO extends DBContext {
         }
         return listS;
     }
+    
+    public void AddNewSetting(Setting x, int type) {
+        String sql = "insert into Setting(setting_name, [type], [value], [order], [description], [status])"
+                + " values(?,?,?,?,?,?)";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, x.getSetting_name());
+            ps.setInt(2, type);
+            ps.setString(3, x.getValue());
+            ps.setInt(4, x.getOrder());
+            ps.setString(5, x.getDescription());
+            ps.setBoolean(6, x.isStatus());
+            ps.executeUpdate();
+            ps.close();
+        } catch (Exception e) {
+            System.out.println("update: " + e.getMessage());
+        }
+    }
 
     public static void main(String[] args) {
         SettingDAO sdao = new SettingDAO();
-        List<Setting> list = sdao.searchSettingBy("local");
-        for (Setting setting : list) {
-            System.out.println(setting.getRole_name());
-        }
+        System.out.println(sdao.getDetailSettingById("1").getSetting_id());
     }
 
     public List<Setting> searchSettingBy(String value) {
@@ -59,6 +74,37 @@ public class SettingDAO extends DBContext {
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1,"%"+ value+"%");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Role r = new Role();
+                Setting s = new Setting();
+                s.setSetting_id(rs.getInt(1));
+                s.setSetting_name(rs.getString(2));
+                s.setRole_name(rs.getString(3));
+                s.setValue(rs.getString(4));
+                s.setOrder(rs.getInt(5));
+                s.setStatus(rs.getBoolean(6));
+                listS.add(s);
+            }
+        } catch (Exception e) {
+        }
+        return listS;
+    }
+    
+    public List<Setting> filterSettingBy(int type, int status) {
+        ResultSet rs = null;
+
+        List<Setting> listS = new ArrayList<>();
+        String sql = "select s.setting_id, s.setting_name, r.role_name, s.value, s.[order], s.status from [Setting] s join Role r on s.type = r.role_id\n"
+                + "where (? = -1 or s.type = ?)"
+                + " and (? = -1 or s.status = ?)";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, type);
+            ps.setInt(2, type);
+            ps.setInt(3, status);
+            ps.setInt(4, status);
+            
             rs = ps.executeQuery();
             while (rs.next()) {
                 Role r = new Role();
@@ -224,5 +270,52 @@ public class SettingDAO extends DBContext {
             System.out.println(e);
         }
         return null;
+    }
+
+    public Setting getDetailSettingById(String sid) {
+        String sql = "select s.setting_id, s.setting_name, r.role_name, s.value, s.[order], s.description, s.status\n"
+                + " from [Setting] s join Role r on s.type = r.role_id\n"
+                + "where s.setting_id = " + sid;
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Role r = new Role();
+                Setting s = new Setting();
+                s.setSetting_id(rs.getInt(1));
+                s.setSetting_name(rs.getString(2));
+                s.setRole_name(rs.getString(3));
+                s.setValue(rs.getString(4));
+                s.setOrder(rs.getInt(5));
+                s.setDescription(rs.getString(6));
+                s.setStatus(rs.getBoolean(7));
+                return s;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public void updateSetting(Setting x, int type) {
+        String sql = "update Setting set [type] = ?, "
+                + "[value] = ?, "
+                + "[order] = ?, "
+                + "description = ?, "
+                + "status = ? "
+                + "where setting_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, type);
+            ps.setString(2, x.getValue());
+            ps.setInt(3, x.getOrder());
+            ps.setString(4, x.getDescription());
+            ps.setBoolean(5, x.isStatus());
+            ps.setInt(6, x.getSetting_id());
+            ps.executeUpdate();
+            ps.close();
+        } catch (Exception e) {
+            System.out.println("update: " + e.getMessage());
+        }
     }
 }

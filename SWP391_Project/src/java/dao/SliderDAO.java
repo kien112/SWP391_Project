@@ -126,18 +126,20 @@ public class SliderDAO extends DBContext {
         return false;
     }
 
-    public boolean updateSlider(int id, String title, String backlink, boolean status) {
+    public boolean updateSlider(int id, String title, String backlink, boolean status, String image) {
         try {
             PreparedStatement ps;
             ResultSet rs;
             String sql = "UPDATE [slider] \n"
-                    + " SET title = ?,backlink = ?,status = ?\n"
+                    + " SET title = ?,backlink = ?,status = ?,\n"
+                    + " image = ?, [modified]=GETDATE()"
                     + " WHERE id = ?";
             ps = connection.prepareStatement(sql);
             ps.setString(1, title);
             ps.setString(2, backlink);
-            ps.setBoolean(3, !status);
-            ps.setInt(4, id);
+            ps.setBoolean(3, status);
+            ps.setString(4, image);
+            ps.setInt(5, id);
             ps.executeUpdate();
             return true;
         } catch (SQLException ex) {

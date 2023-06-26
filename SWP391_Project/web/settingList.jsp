@@ -20,6 +20,8 @@
         <link href="CSS/myRegis.css" rel="stylesheet" type="text/css"/>            
         <link href="CSS/styles.css" rel="stylesheet" type="text/css"/> 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!--phân trang-->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
     </head>
     <body>
 
@@ -36,7 +38,7 @@
                                 Search: <input type="text" name="value" style="color: black;" placeholder="Search by value">
                                 <button style="color: black; padding: 2px;"><i class="fa-solid fa-magnifying-glass"></i></button>
                             </form>             
-                            Add new: <button style="color: black; border-radius: 4px">Click to add new</button>
+                            Add new: <a href="addNewSetting"><button style="color: black; border-radius: 4px">Click to add new</button></a>
                             <form action="sortSetting" method="post">
                                 <select name="opU" onchange="this.form.submit()" style="color: black;">
                                     <option value="all">All</option>
@@ -48,41 +50,71 @@
                                 </select>(Sort) 
                             </form>
                         </div>
-
+                        <div>
+                            <form action="filterSetting" method="post">
+                                Type: <select name="type" style="color: black">
+                                    <option value="-1">All Type</option>
+                                    <c:forEach items="${listR}" var="r">
+                                        <option value="${r.role_id}">${r.role_name}</option>
+                                    </c:forEach>
+                                </select>
+                                Status: <select name="status" style="color: black">
+                                    <option value="-1">All</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">InActive</option>
+                                </select>
+                                <button style="color: black" type="submit">Filter</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-<!--                <div>${aa}</div>-->
-                <form method="post" action="settingList">
-                    <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>                            
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Value</th>
-                            <th>Order</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody><!--
-                        <c:forEach var="u" items="${listS}">
--->                            <tr>                               
-                                <td>${u.setting_id}</td>
-                                <td>${u.setting_name}</td>
-                                <td>${u.role_name}</td>
-                                <td>${u.value}</td>
-                                <td>${u.order}</td>
-                                <td>${u.status ? "Active" : "Inactive"}</td>
-                                <td><a  href="settingDetail?sid=${u.setting_id}"><button type="button" class="btn btn_detail ">Edit
-                                             </button> </a></td>
-                            </tr><!--
-                        </c:forEach>                           
--->                    </tbody>
-                </table>  
-                </form>
-                             
+                <c:if test="${message != null}">
+                    <p>${message}</p>
+                </c:if>
+                <c:if test="${message == null}">    
+                    <form method="post" action="settingList">
+                        <table id="tableData" class="table table-striped table-hover">
+                            <thead>
+                                <tr>                            
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Value</th>
+                                    <th>Order</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody><!--
+                                <c:forEach var="u" items="${listS}">
+                                    -->                            <tr>                               
+                                        <td>${u.setting_id}</td>
+                                        <td>${u.setting_name}</td>
+                                        <td>${u.role_name}</td>
+                                        <td>${u.value}</td>
+                                        <td>${u.order}</td>
+                                        <td>${u.status ? "Active" : "Inactive"}</td>
+                                        <td><a  href="updateSetting?sid=${u.setting_id}"><button type="button" class="btn btn_detail ">Edit
+                                                </button> </a></td>
+                                    </tr><!--
+                                </c:forEach>                           
+                                -->                    </tbody>
+                        </table>  
+                    </form>
+                </c:if>           
             </div>
         </div> 
         <jsp:include page="footer.jsp" />
+        <!--phân trang-->
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+        <script>
+                                    $(document).ready(function () {
+                                        $('#tableData').DataTable({
+                                            pagingType: 'full_numbers',
+                                            searching: false
+                                        });
+                                    });
+        </script>
     </body>
 </html>

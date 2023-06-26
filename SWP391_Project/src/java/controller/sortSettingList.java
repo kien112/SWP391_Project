@@ -5,6 +5,7 @@
 
 package controller;
 
+import dao.RoleDAO;
 import dao.SettingDAO;
 import dao.UserDBContext;
 import java.io.IOException;
@@ -100,6 +101,9 @@ public class sortSettingList extends HttpServlet {
                 request.getRequestDispatcher("settingList.jsp").forward(request, response);
                 
         }
+        RoleDAO dao = new RoleDAO();
+        
+        request.setAttribute("listR", dao.getListRole());
         request.setAttribute("listS", listS);
         request.getRequestDispatcher("settingList.jsp").forward(request, response);
     }

@@ -20,7 +20,7 @@ public class Blog {
     private Date createDate;
     private String blog_content;
     private int cate_id;
-    private boolean status;
+    private Boolean status;
     private String category;
     private String thumbnail;
     private String flag;
@@ -114,7 +114,7 @@ public class Blog {
         return cate_id;
     }
 
-    public boolean isStatus() {
+    public Boolean isStatus() {
         return status;
     }
 
@@ -187,7 +187,7 @@ public class Blog {
     }
 
     public boolean getStatus() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return status;
     }
     
     

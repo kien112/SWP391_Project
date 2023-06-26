@@ -5,6 +5,7 @@
 
 package controller;
 
+import dao.RoleDAO;
 import dao.SettingDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -61,6 +62,9 @@ public class manh extends HttpServlet {
                  SettingDAO sd = new SettingDAO();
         List<Setting> listS = sd.getAllSetting();
         request.setAttribute("listS", listS);
+        RoleDAO dao = new RoleDAO();
+        
+        request.setAttribute("listR", dao.getListRole());
         request.getRequestDispatcher("settingList.jsp").forward(request, response);
         processRequest(request, response);
     } 
@@ -77,6 +81,9 @@ public class manh extends HttpServlet {
     throws ServletException, IOException {
                  SettingDAO sd = new SettingDAO();
         List<Setting> listS = sd.getAllSetting();
+        RoleDAO dao = new RoleDAO();
+
+        request.setAttribute("listR", dao.getListRole());
         request.setAttribute("listS", listS);
         request.getRequestDispatcher("settingList.jsp").forward(request, response);
         processRequest(request, response);

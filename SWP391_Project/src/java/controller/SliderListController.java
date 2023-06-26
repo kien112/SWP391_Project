@@ -22,6 +22,21 @@ import model.Slider;
  */
 @WebServlet(name="SliderListController", urlPatterns={"/slider"})
 public class SliderListController extends HttpServlet {
+    
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        String status_filter = request.getParameter("status_filter");
+        String title_search = request.getParameter("title_search");
+        if(status_filter == null)status_filter="";
+        if(title_search == null) title_search ="";
+        SliderDAO dbSlider = new SliderDAO();
+        ArrayList<Slider> sliders = dbSlider.findSliderByTitleOrBackLinkAndActive(title_search, status_filter);
+        
+        request.setAttribute("sliders", sliders);
+        request.getRequestDispatcher("sliderList.jsp").forward(request, response);
+    } 
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

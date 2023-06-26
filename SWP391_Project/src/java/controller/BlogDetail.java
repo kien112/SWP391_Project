@@ -34,18 +34,16 @@ public class BlogDetail extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet BlogDetail</title>");  
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet BlogDetail at " + request.getContextPath () + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        String bid = request.getParameter("bid");
+        BlogDAO dao = new BlogDAO();
+        List<BlogCategory> clist = dao.getBlogCategories();
+        Blog b = dao.getDetailBlogs(bid);
+        List<Blog> top3 = dao.getTop3ListBlogs();
+
+        request.setAttribute("b", b);
+        request.setAttribute("clist", clist);
+        request.setAttribute("top3", top3);
+        request.getRequestDispatcher("blogDetails.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -59,17 +57,7 @@ public class BlogDetail extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-//        processRequest(request, response);
-        String bid = request.getParameter("bid");
-        BlogDAO dao = new BlogDAO();
-        List<BlogCategory> clist = dao.getBlogCategories();
-        Blog b = dao.getDetailBlogs(bid);
-        List<Blog> top3 = dao.getTop3ListBlogs();
-
-        request.setAttribute("b", b);
-        request.setAttribute("clist", clist);
-        request.setAttribute("top3", top3);
-        request.getRequestDispatcher("blogDetails.jsp").forward(request, response);
+        processRequest(request, response);
     } 
 
     /** 

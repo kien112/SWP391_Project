@@ -17,6 +17,7 @@
     <body>
         <jsp:include page="header.jsp"/>
         <div class="container" style="margin-top: 50px;">
+           
             <div class="main-body">             
                 <div class="row gutters-sm">
                     <div class="col-md-8">
@@ -56,7 +57,7 @@
                                 <hr/>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <button onclick="showModal('editModal')" style="color: black; padding: 5px; font-size: 20px; border-radius: 10px">Save change</button>
+                                        <button style="color: black; padding: 5px; font-size: 20px; border-radius: 10px">Save change</button>
                                     </div>
                                 </div>
                             </div>

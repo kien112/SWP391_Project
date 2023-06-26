@@ -12,18 +12,21 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+              integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog=="
+              crossorigin="anonymous" />
     </head>
     <body>
-        <form method="post" action="update">
-           
+        <jsp:include page="header.jsp"/>
+        <form method="post" action="update" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="${slider.id}">
             <div>
                 <label>Title</label>
                 <input type="text" name="title" value="${slider.title}">
             </div>
-            <div>
-                <label>Image</label>
-                <img src="${slider.image}" alt="alt"/>
-            </div>
+
             <div>
                 <label>Back link</label>
                 <input type="text" name="backlink" value="${slider.backlink}">
@@ -31,12 +34,31 @@
             <div>
                 <label>Status</label>
                 <select name="status">
-                    <option value="true" <c:if test="${s.status}">selected</c:if>>Active</option>
-                    <option value="false" <c:if test="${s.status}">selected</c:if>>Deactive</option>
-                </select>
-            </div>
-                <input type="hidden" name="id" value="${slider.id}">
+                    <option value="1" ${slider.status?"selected":""}>Active</option>
+                    <option value="0" ${!slider.status?"selected":""}>Deactive</option>
+                    </select>
+                </div>
+            <div>
+                <label>Image</label>
+                <input name="old_img" value="${slider.image}" id="old-image" hidden=""/>
+                <img src="../${slider.image}" width="100" height="100" id="img-preview"/>
+                <input accept="image/*" type="file" name="file" id="file-input"/>
+            </div>   
             <button>Update</button>
         </form>
+ <jsp:include page="footer.jsp"/>
+        <script>
+            const input = document.getElementById('file-input');
+            const image = document.getElementById('img-preview');
+
+            input.addEventListener('change', (e) => {
+                if (e.target.files.length) {
+                    const src = URL.createObjectURL(e.target.files[0]);
+                    image.src = src;
+                } else {
+                    image.src = document.getElementById('old-image').value;
+                }
+            });
+        </script>
     </body>
 </html>

@@ -5,6 +5,7 @@
 
 package controller;
 
+import dao.RoleDAO;
 import dao.SettingDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -74,7 +75,14 @@ public class SearchSettingList extends HttpServlet {
         String value = request.getParameter("value");
         SettingDAO sd = new SettingDAO();
         List <Setting> listS = sd.searchSettingBy(value);
-        request.setAttribute("aa", value);
+        RoleDAO dao = new RoleDAO();
+        
+        if(listS.size() <= 0){
+            String message = "No result found with value: " + value;
+            request.setAttribute("message", message);
+        }
+        
+        request.setAttribute("listR", dao.getListRole());
         request.setAttribute("listS", listS);
         request.getRequestDispatcher("settingList.jsp").forward(request, response);
     }

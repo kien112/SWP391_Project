@@ -11,6 +11,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <!--phân trang-->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
     </head>
     <body>
         <jsp:include page="header.jsp"/>
@@ -35,7 +37,8 @@
         </form>
     </div>
     <c:if test="${sliders.size() eq 0}">NOT FOUND ANY SLIDES</c:if>
-    <c:if test="${sliders.size() ne 0}"> <table border="1">
+    <c:if test="${sliders.size() ne 0}"> 
+        <table id="tableData">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -45,7 +48,6 @@
                     <th>Status</th>
                     <th>Display(Hide/Show)</th>
                     <th>Action</th>
-                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,7 +55,7 @@
                     <tr>
                         <td>${s.id}</td>
                         <td>${s.title}</td>
-                        <td><img src="${s.image}" alt="alt" width="200px"/></td>
+                        <td><img src="${s.image}" alt="alt" width="175px"/></td>
                         <td><a href="${s.backlink}">Enter slide</a></td>
                         <td><c:if test="${s.status}">Active</c:if>
                             <c:if test="${!s.status}">Deactive</c:if></td>
@@ -65,18 +67,32 @@
                                 <input type="hidden" name="status" value="${s.status}">
                             </form>
                         </td>
-                        <td><button><a href="<%=request.getContextPath()%>/slider/update?id=${s.id}">Update</a></button></td>
-                        <td>
-                            <form method="post" action="slider/delete" onsubmit="return confirm('Are you sure you want to delete this item?')">
-                                <input type="hidden" name="id" value="${s.id}">
-                                <button>Delete</button>
-                            </form>
+                        <td><button><a href="<%=request.getContextPath()%>/slider/update?id=${s.id}">Update</a></button>
+                            <button onclick="ShowMessage('${s.id}')">Delete</button>
+                            <a href="<%=request.getContextPath()%>/sliderDetail?id=${s.id}"><button>Detail</button></a>
                         </td>
                     </tr>
                 </c:forEach>
             </tbody>
         </table></c:if>
-<jsp:include page="footer.jsp"/>
-
+    <jsp:include page="footer.jsp"/>
+    <!--phân trang-->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#tableData').DataTable({
+                pagingType: 'full_numbers',
+                searching: false
+            });
+        });
+        
+        
+        function ShowMessage(id){
+            if(confirm('Do you want to delete?')===true){
+                window.location.href = "deleteSlider?id="+id;
+            }
+        }
+    </script>
 </body>
 </html>

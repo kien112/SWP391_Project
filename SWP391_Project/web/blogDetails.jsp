@@ -74,7 +74,7 @@
                     <p style="font-size: 13px;padding: 20px 50px;width: 100% !important;overflow: hidden;">
                         ${b.blog_content}
                     </p>
-                    <a href="blogDetail"> <button style="border-radius: 7px; padding: 7px; margin-left: 370px " >Edit post</button></a>
+                    <a href="updateBlog?bid=${b.blog_id}"> <button style="border-radius: 7px; padding: 7px; margin-left: 370px " >Edit post</button></a>
 
                 </div>
                 <jsp:include page="footer.jsp"/>

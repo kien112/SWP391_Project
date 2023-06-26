@@ -22,6 +22,22 @@ import model.BlogCategory;
  */
 public class BlogDAO extends DBContext {
 
+    public static void main(String[] args) {
+        BlogDAO dao = new BlogDAO();
+//        Blog blog = new Blog();
+//        blog.setBlog_id(1);
+//        blog.setTitle("sddv");
+//        blog.setAuthor("dsvsd");
+//        blog.setImage("sdvsdvs");
+//        blog.setBrief_info("dscvsd");
+//        blog.setCate_id(1);
+//        blog.setStatus(true);
+//        blog.setThumbnail("dsvsd");
+//        blog.setFlag("sdvsdv");
+//        blog.setBlog_content("bffbveve");
+//        dao.updateBlog(blog);
+    }
+
     public List<Blog> getListBlogs(String search, String cateId, String sortType, String index) {
         int curIndex = Integer.valueOf(index);
         String orderBy = "order by b.blog_id asc";
@@ -138,7 +154,33 @@ public class BlogDAO extends DBContext {
                 return b;
             }
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public Blog getDetailBlogsById(String bid) {
+        String sql = "  select * from Blog b \n"
+                + "  where b.blog_id = " + bid;
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                Blog b = new Blog();
+                b.setBlog_id(rs.getInt("blog_id"));
+                b.setTitle(rs.getString("title"));
+                b.setAuthor(rs.getString("author"));
+                b.setImage(rs.getString("image"));
+                b.setBrief_info(rs.getString("brief_infor"));
+                b.setBlog_content(rs.getString("blog_content"));
+                b.setCate_id(rs.getInt("cate_id"));
+                b.setStatus(rs.getBoolean("status"));
+                b.setThumbnail(rs.getString("thumbnail"));
+                b.setFlag(rs.getString("flag"));
+                return b;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
         return null;
     }
@@ -312,6 +354,35 @@ public class BlogDAO extends DBContext {
             ps.setString(6, x.getBrief_info());
             ps.setString(7, x.getBlog_content());
             ps.setInt(8, x.getBlog_id());
+            ps.executeUpdate();
+            ps.close();
+        } catch (Exception e) {
+            System.out.println("update: " + e.getMessage());
+        }
+    }
+
+    public void updateBlog(Blog x) {
+        String sql = "update blog set title = ?, \n"
+                + "[image] = ?,\n"
+                + "[brief_infor] = ?,\n"
+                + "[blog_content] = ?,\n"
+                + "[cate_id] = ?,\n"
+                + "[status] = ?,\n"
+                + "thumbnail = ?,\n"
+                + "[flag] = ?,\n"
+                + "[dateModified] = GETDATE()\n"
+                + "where blog_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, x.getTitle());
+            ps.setString(2, x.getImage());
+            ps.setString(3, x.getBrief_info());
+            ps.setString(4, x.getBlog_content());
+            ps.setInt(5, x.getCate_id());
+            ps.setBoolean(6, x.isStatus());
+            ps.setString(7, x.getThumbnail());
+            ps.setString(8, x.getFlag());
+            ps.setInt(9, x.getBlog_id());
             ps.executeUpdate();
             ps.close();
         } catch (Exception e) {
