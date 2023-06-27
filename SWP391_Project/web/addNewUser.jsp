@@ -19,11 +19,12 @@
             <form action="addNewUser" method="post">
                 <div class="input-field">
                     <label>Email</label>
-                    <input name="email" type="email"/>
+                    <input name="email" type="email" required=""/>
+                    <p>${message}</p>
                 </div>
                 <div class="input-field">
                     <label>Password</label>
-                    <input name="password" type="password" minlength="6" maxlength="31"/>
+                    <input name="password" type="password" minlength="6" maxlength="31" required=""/>
                 </div>
                 <div class="input-field">
                     <label>Full Name</label>
@@ -44,7 +45,6 @@
                     <label>Phone</label>
                     <input name="phone_number" type="number" minlength="10" maxlength="11"/>
                 </div>
-                <p>${message}</p>
                 <button type="submit">Add New</button>
                 <a href="userList">Back</a>
             </form>

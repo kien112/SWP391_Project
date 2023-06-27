@@ -95,7 +95,10 @@
                                         <td>${u.order}</td>
                                         <td>${u.status ? "Active" : "Inactive"}</td>
                                         <td><a  href="updateSetting?sid=${u.setting_id}"><button type="button" class="btn btn_detail ">Edit
-                                                </button> </a></td>
+                                                </button> </a>
+                                                <a href="detailSetting?sid=${u.setting_id}"><button type="button" class="btn btn_detail ">Detail
+                                                </button> </a>    
+                                        </td>
                                     </tr><!--
                                 </c:forEach>                           
                                 -->                    </tbody>

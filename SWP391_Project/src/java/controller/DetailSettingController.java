@@ -5,7 +5,7 @@
 
 package controller;
 
-import dao.UserDBContext;
+import dao.SettingDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,18 +13,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.User;
+import model.Setting;
 
 /**
  *
  * @author 84877
  */
-@WebServlet(name="AddNewUserController", urlPatterns={"/addNewUser"})
-public class AddNewUserController extends HttpServlet {
+@WebServlet(name="DetailSettingController", urlPatterns={"/detailSetting"})
+public class DetailSettingController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -41,10 +37,10 @@ public class AddNewUserController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddNewUserController</title>");  
+            out.println("<title>Servlet DetailSettingController</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AddNewUserController at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet DetailSettingController at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,7 +58,11 @@ public class AddNewUserController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
 //        processRequest(request, response);
-        request.getRequestDispatcher("addNewUser.jsp").forward(request, response);
+        String id = request.getParameter("sid");
+        SettingDAO dao = new SettingDAO();
+        Setting setting = dao.getDetailSettingById(id);
+        request.setAttribute("s", setting);
+        request.getRequestDispatcher("viewDetailSetting.jsp").forward(request, response);
     } 
 
     /** 
@@ -75,30 +75,7 @@ public class AddNewUserController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-//        processRequest(request, response);
-        try {
-            UserDBContext userDBContext = new UserDBContext();
-            
-            String email = request.getParameter("email");
-            if(userDBContext.findByEmail(email)!=null){
-                request.setAttribute("message", "email is existed");
-                request.getRequestDispatcher("addNewUser.jsp").forward(request, response);
-            }
-            String password = request.getParameter("password");
-            String fullname = request.getParameter("fullname");
-            String gender = request.getParameter("gender");
-            gender = gender.equals("1")?"true":"false";
-            String address = request.getParameter("address");
-            String phone_number = request.getParameter("phone_number");
-            Random rand = new Random();
-            int otpvalue = rand.nextInt(1255650);
-            User user = new User(fullname, email, password, Boolean.parseBoolean(gender), address, phone_number, Integer.toString(otpvalue), false, true, 1);
-            
-            userDBContext.registerUSer(user);
-            response.sendRedirect("userList");
-        } catch (SQLException ex) {
-            Logger.getLogger(ResgisterController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /** 

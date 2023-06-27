@@ -65,7 +65,7 @@ public class userList extends HttpServlet {
         try {
             UserDBContext udb = new UserDBContext();
             RoleDAO roleDAO = new RoleDAO();
-            List<User> listC = udb.getAllUser();
+            List<User> listC = udb.filterUserBy(-1, -1, -1);
             request.setAttribute("listR", roleDAO.getListRoleWithoutAdmin());
             request.setAttribute("listC", listC);
             request.getRequestDispatcher("userList.jsp").forward(request, response);
