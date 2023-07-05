@@ -25,7 +25,7 @@ import utils.EmailUtils;
  */
 public class UserDBContext extends DBContext {
 
-    public boolean registerUSer(User user) {
+    public boolean registerUSer(User user, boolean isSendLink) {
         try {
             PreparedStatement ps;
             ResultSet rs;
@@ -55,7 +55,12 @@ public class UserDBContext extends DBContext {
             String subject = "Please verify your account to Online Learning System <3";
             String verificationLink = "http://localhost:8080/SWP391_Project/verify?email=" + user.getEmail() + "&code=" + user.getVerification_code();
             String body = "Click this link to verify your account: " + verificationLink + "";
+            if(!isSendLink){
+                subject = "";
+                body = "Your password in Online Learning System is: "+user.getPassword();
+            }
             EmailUtils.sendVerifyEmail(user.getEmail(), subject, body);
+            
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
@@ -154,12 +159,13 @@ public class UserDBContext extends DBContext {
     public static void main(String[] args) {
         try {
             UserDBContext udbc = new UserDBContext();
-            List<User> users = udbc.getAllUser();
-            List<User> a = udbc.filterUserBy(1, 2, -1);
-
-            for (User user : a) {
-                System.out.println(user.getFull_name());
-            }
+            EmailUtils.sendVerifyEmail("ngkien112@gmail.com", "dd", "saf");
+//            List<User> users = udbc.getAllUser();
+//            List<User> a = udbc.filterUserBy(1, 2, -1);
+//
+//            for (User user : a) {
+//                System.out.println(user.getFull_name());
+//            }
 //            udbc.updateUserPassword("nguyenthanhsang17102002@gmail.com", "00000000");
         } catch (Exception e) {
         }
@@ -197,6 +203,33 @@ public class UserDBContext extends DBContext {
         String sql = "select * from [User]";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                users.add(new User(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getBoolean(5), 
+                        rs.getString(6), 
+                        rs.getString(7), 
+                        rs.getString(8), 
+                        rs.getBoolean(9),
+                        rs.getBoolean(10),
+                        rs.getInt(11)));
+            }
+        } catch (Exception e) {
+        }
+        return users;
+    }
+    
+    public List<User> getAllUserByRoleId(int roleId) {
+        ResultSet rs = null;
+
+        List<User> users = new ArrayList<>();
+        String sql = "select * from [User] where role_id = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, roleId);
             rs = ps.executeQuery();
             while (rs.next()) {
                 users.add(new User(rs.getInt(1),

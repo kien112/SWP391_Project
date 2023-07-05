@@ -51,7 +51,7 @@ public class ResgisterController extends HttpServlet {
             int otpvalue = rand.nextInt(1255650);
             User user = new User(fullname, email, password, Boolean.parseBoolean(gender), address, phone_number, Integer.toString(otpvalue), false, true, 1);
             UserDBContext userDBContext = new UserDBContext();
-            userDBContext.registerUSer(user);
+            userDBContext.registerUSer(user, true);
             request.getRequestDispatcher("verify.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(ResgisterController.class.getName()).log(Level.SEVERE, null, ex);

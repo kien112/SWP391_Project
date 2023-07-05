@@ -57,7 +57,7 @@
                 </form>
             </div>
             <div class="col-md-3" >
-                <a style="margin: 10px; margin-top: 20px;" href="#" class="btn btn-success float-right">
+                <a style="margin: 10px; margin-top: 20px;" href="subjects?action=create" class="btn btn-success float-right">
                     <i class="fa fa-plus"></i> New subject
                 </a>
             </div>

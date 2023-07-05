@@ -19,27 +19,21 @@
     </head>
     <body>
         <div class="wrapper">
-            <%@include file="components/navbar.jsp" %>
+            <%@include file="header.jsp" %>
             <div id="content">
-                <%@include file="components/CusHeader.jsp"%>
+                <%--<%@include file="components/CusHeader.jsp"%>--%>
                 <h1 style="font-size:35px">NEW SUBJECT</h1>
 
-                
+
                 <div class="container">
                     <div class="form-container">
-                        <div class="row">
-                            <form action="addnewsubject" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
-                                <div class="col-md-6">
-                                    <div class="image-upload">
-                                        <input type="file" name="thumbnail" id="imageUpload" accept="image/*"  onchange="loadFile(event)">
-                                        <label for="imageUpload">
-                                            <img id="imagePreview" src="uploads/" class="img-fluid">
-                                            <span class="btn btn-primary">Upload Image</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                 
+                        <form action="subjects" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                            <input name="action" value="create" hidden=""/>
+                            <div class="row">
+
+                                
+                                <div class="">
+
                                     <div class="mb-3">
                                         <label for="subjectName" class="form-label">Subject Name</label>
                                         <input type="text" class="form-control" id="subjectName" name="name" required>
@@ -81,50 +75,67 @@
                                         <label for="description" class="form-label">Description</label>
                                         <textarea class="form-control" id="description" name="description" rows="4" maxlength="200" required=""></textarea>
                                     </div>
-                                    <div class="form-check mb-3">
-                                        <input class="form-check-input" type="checkbox" id="featured" name="featured">
-                                        <label class="form-check-label" for="featured">Featured</label>
+                                    <div class="mb-3">
+                                        <label class="form-label">Featured</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="featured" id="status1" value="on" checked>
+                                            <label class="form-check-label" for="status1">On</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="featured" id="status2" value="off">
+                                            <label class="form-check-label" for="status2">Off</label>
+                                        </div>
                                     </div>
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                        <a href="SubjectListAE.jsp" > <button type="button" class="btn btn-danger cancel-btn">Cancel</button> </a>
+                                    <div class="col-md-6">
+                                    <div class="image-upload">
+                                        <input type="file" name="thumbnail" id="imageUpload" accept="image/*"  onchange="loadFile(event)">
+                                        <label for="imageUpload">
+                                            <img id="imagePreview" src="uploads/" class="img-fluid" width="50" height="50">
+                                            <span class="btn btn-primary">Upload Image</span>
+                                        </label>
                                     </div>
-                            </form>
-                        </div>
+                                </div>
+                                    <div class="mb-3">
+                                        <button type="submit" >Submit</button>
+                                        <a href="subject" > <button type="button">Cancel</button> </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
+
+
+
             </div>
-
-
-
-        </div>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-                                            function validateForm() {
-                                                var imageUpload = document.getElementById('imageUpload');
-                                                if (imageUpload.files.length == 0) {
-                                                    alert('Please select an image.');
-                                                    return false; // Prevent form submission
+            <%--<jsp:include page="footer.jsp"/>--%>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+                                                function validateForm() {
+                                                    var imageUpload = document.getElementById('imageUpload');
+                                                    if (imageUpload.files.length == 0) {
+                                                        alert('Please select an image.');
+                                                        return false; // Prevent form submission
+                                                    }
+                                                    return true; // Proceed with form submission
                                                 }
-                                                return true; // Proceed with form submission
-                                            }
-        </script>
-        <script>
-            var loadFile = function (event) {
-                var output = document.getElementById('imagePreview');
-                output.src = URL.createObjectURL(event.target.files[0]);
-                output.onload = function () {
-                    URL.revokeObjectURL(output.src) // free memory
-                }
-            };
-        </script>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#sidebarCollapse').on('click', function () {
-                    $('#sidebar').toggleClass('active');
+            </script>
+            <script>
+                var loadFile = function (event) {
+                    var output = document.getElementById('imagePreview');
+                    output.src = URL.createObjectURL(event.target.files[0]);
+                    output.onload = function () {
+                        URL.revokeObjectURL(output.src) // free memory
+                    }
+                };
+            </script>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#sidebarCollapse').on('click', function () {
+                        $('#sidebar').toggleClass('active');
+                    });
                 });
-            });
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+            </script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     </body>
 </html>

@@ -186,6 +186,8 @@ public class courseDAO extends DBContext {
         }
         return 0;
     }
+    
+    
 
     public List<CourseCategory> getBlogCategories() {
         List<CourseCategory> listB = new ArrayList<>();
@@ -205,11 +207,20 @@ public class courseDAO extends DBContext {
     }
 
     public static void main(String[] args) {
-        courseDAO courseDAO = new courseDAO();
-        List<Course> listC = courseDAO.getListCourses("", "", "", "1");
-        for (Course c : listC) {
-            System.out.println(c.getBrief_infor());
-        }
+//        courseDAO dao = new courseDAO();
+//        Course course = new Course();
+//            course.setName("dsf");
+//            course.setBrief_infor("dsfsd");
+//            course.setImage("image/"+"pipe1.png");
+//            course.setCate_id(1);
+//            course.setUser_id(1);
+//            course.setStatus(true);
+//            
+//            dao.addNewCourse(course);
+//        List<Course> listC = courseDAO.getListCourses("", "", "", "1");
+//        for (Course c : listC) {
+//            System.out.println(c.getBrief_infor());
+//        }
     }
     
     public Course findByCouseId(int courseId) {
