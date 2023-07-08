@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.Course;
 import model.CourseCategory;
-import model.Price_package;
+import model.PricePackage;
 import model.User;
 
 
@@ -33,7 +33,7 @@ public class CourseDetailsController extends HttpServlet {
         courseDAO dbCourse = new courseDAO();
         User user = (User) request.getSession().getAttribute("user");
         Price_PackageDAO dbPrice_Package = new Price_PackageDAO();
-        List<Price_package> price_packages = dbPrice_Package.findAll();
+        List<PricePackage> price_packages = dbPrice_Package.findAll();
         Course course = dbCourse.findByCouseId(Integer.parseInt(courseId));
         boolean checkUserRegister = false;
         if (user != null) {

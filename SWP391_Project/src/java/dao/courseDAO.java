@@ -239,6 +239,7 @@ public class courseDAO extends DBContext {
                 course.setTitle(rs.getString(3));
                 course.setOriginal_price(rs.getDouble(4));
                 course.setBrief_infor(rs.getString(6));
+                course.setImage(rs.getString(9));
                 return course;
             }
 

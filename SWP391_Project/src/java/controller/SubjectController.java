@@ -5,6 +5,8 @@
 
 package controller;
 
+import dao.DimensionDAO;
+import dao.Price_PackageDAO;
 import dao.SubjectDAO;
 import dao.UserDBContext;
 import dao.courseDAO;
@@ -22,7 +24,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Course;
-import model.CourseCategory;
+import model.Dimension;
+import model.DimensionType;
+import model.PricePackage;
 import model.Subject;
 import model.SubjectCategory;
 import model.User;
@@ -38,6 +42,9 @@ public class SubjectController extends HttpServlet {
     String FileUpload_Directory = "E:\\kien\\ABC\\SWP391_Project\\web\\image\\";
     courseDAO dao = new courseDAO();
     SubjectDAO subjectDAO = new SubjectDAO();
+    DimensionDAO dimensionDAO = new DimensionDAO();
+    Price_PackageDAO price_PackageDAO = new Price_PackageDAO();
+    courseDAO cDao = new courseDAO();
     int courseId = -1;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -78,8 +85,16 @@ public class SubjectController extends HttpServlet {
             case "create":
                 request.getRequestDispatcher("AddNewSubject.jsp").forward(request, response);
                 break;
+            case "subjectDetails":
+                ViewSubjectDetails(request, response);
+                break;
+            case "changeStatus":
+                changeStatusPackage(request, response);
+                ViewSubjectDetails(request, response);
+                break;
             default:
                 redirectToMainPage(request, response);
+                break;
         }
     } 
 
@@ -93,10 +108,25 @@ public class SubjectController extends HttpServlet {
             case "create":
                 createNewSubject(request, response);
                 break;
+            case "createDimension":
+                createDimension(request, response);
+                break;
+            case "updateDimension":
+                updateDimension(request, response);
+                break;
+            case "createPricePackage":
+                createPricePackage(request, response);
+                ViewSubjectDetails(request, response);
+                break;
+            case "updatePricePackage":
+                updatePricePackage(request, response);
+                ViewSubjectDetails(request, response);
+                break;
             default:
                 redirectToMainPage(request, response);
+                break;
         }
-        redirectToMainPage(request, response);
+        
     }
     
     private void redirectToMainPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
@@ -137,21 +167,97 @@ public class SubjectController extends HttpServlet {
             subject.setCategory(category);
             
             subjectDAO.addNewCourse(subject);
+            
+            redirectToMainPage(request, response);
         } catch (Exception e) {
             out.print(e.getMessage());
         }
     }
     
     
+    private void ViewSubjectDetails(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Dimension> listD = dimensionDAO.getAllDimensions();
+        List<DimensionType> listT = dimensionDAO.getDimensionTypes();
+        List<PricePackage> listP = price_PackageDAO.findAll();
+        Course course = cDao.findByCouseId(courseId);
+        
+        request.setAttribute("course", course);
+        request.setAttribute("listP", listP);
+        request.setAttribute("listT", listT);
+        request.setAttribute("listD", listD);
+        request.getRequestDispatcher("subjectDetails.jsp").forward(request, response);
+    }
     
+    private void createDimension(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getParameter("name");
+        int type = Integer.parseInt(request.getParameter("type"));
+        String description = request.getParameter("description");
+        
+        Dimension dimension = new Dimension();
+        dimension.setName(name);
+        dimension.setType(new DimensionType());
+        dimension.getType().setId(type);
+        dimension.setDescription(description);
+        
+        dimensionDAO.addDimension(dimension);
+        
+        ViewSubjectDetails(request, response);
+    }
     
-    
-    
-    
+    private void updateDimension(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        int type = Integer.parseInt(request.getParameter("type"));
+        String description = request.getParameter("description");
+        
+        Dimension dimension = new Dimension();
+        dimension.setId(id);
+        dimension.setName(name);
+        dimension.setType(new DimensionType());
+        dimension.getType().setId(type);
+        dimension.setDescription(description);
+        
+        dimensionDAO.updateDimension(dimension);
+        
+        ViewSubjectDetails(request, response);
+    }
+
     @Override
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private void createPricePackage(HttpServletRequest request, HttpServletResponse response) {
+        int duration = Integer.parseInt(request.getParameter("duration"));
+        double price = Double.parseDouble(request.getParameter("price"));
+        double sale = Double.parseDouble(request.getParameter("sale"));
+        boolean status = request.getParameter("status").equals("1");
+
+        PricePackage pricePackage = new PricePackage(1, duration, price, sale, status);
+        price_PackageDAO.addNewPricePackage(pricePackage);
+
+    }
+
+    private void updatePricePackage(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        int duration = Integer.parseInt(request.getParameter("duration"));
+        double price = Double.parseDouble(request.getParameter("price"));
+        double sale = Double.parseDouble(request.getParameter("sale"));
+        boolean status = request.getParameter("status").equals("1");
+
+        PricePackage pricePackage = new PricePackage(1, duration, price, sale, status);
+        price_PackageDAO.updatePricePackage(pricePackage);
+    }
+
+    private void changeStatusPackage(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("pid"));
+        price_PackageDAO.changeStatusPricePackage(id);
+    }
+
+    
+    
+
+    
 
     
 

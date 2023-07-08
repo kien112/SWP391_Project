@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 public class Registration {
     private int registration_id;
     private Course course_id;
-    private Price_package price_package_id;
+    private PricePackage price_package_id;
     private User user_id;
     private Timestamp created;
     private String regis_status;
@@ -21,7 +21,7 @@ public class Registration {
     public Registration() {
     }
 
-    public Registration(int registration_id, Course course_id, Price_package price_package_id, User user_id, Timestamp created, String regis_status) {
+    public Registration(int registration_id, Course course_id, PricePackage price_package_id, User user_id, Timestamp created, String regis_status) {
         this.registration_id = registration_id;
         this.course_id = course_id;
         this.price_package_id = price_package_id;
@@ -46,11 +46,11 @@ public class Registration {
         this.course_id = course_id;
     }
 
-    public Price_package getPrice_package_id() {
+    public PricePackage getPrice_package_id() {
         return price_package_id;
     }
 
-    public void setPrice_package_id(Price_package price_package_id) {
+    public void setPrice_package_id(PricePackage price_package_id) {
         this.price_package_id = price_package_id;
     }
 

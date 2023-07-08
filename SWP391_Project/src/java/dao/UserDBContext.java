@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Course;
-import model.Price_package;
+import model.PricePackage;
 import model.Registration;
 import model.Role;
 import model.User;
@@ -287,7 +287,7 @@ public class UserDBContext extends DBContext {
                 c.setName(rs.getString(2));
                 c.setImage(rs.getString(3));
                 r.setCourse_id(c);
-                Price_package pp = new Price_package();
+                PricePackage pp = new PricePackage();
                 pp.setPrice(rs.getDouble(4));
                 r.setPrice_package_id(pp);
                 r.setCreated(rs.getTimestamp(5));
@@ -339,7 +339,7 @@ public class UserDBContext extends DBContext {
                 c.setName(rs.getString(2));
                 c.setImage(rs.getString(3));
                 r.setCourse_id(c);
-                Price_package pp = new Price_package();
+                PricePackage pp = new PricePackage();
                 pp.setPrice(rs.getDouble(4));
                 r.setPrice_package_id(pp);
                 r.setCreated(rs.getTimestamp(5));
@@ -381,7 +381,7 @@ public class UserDBContext extends DBContext {
                 c.setName(rs.getString(2));
                 c.setImage(rs.getString(3));
                 r.setCourse_id(c);
-                Price_package pp = new Price_package();
+                PricePackage pp = new PricePackage();
                 pp.setPrice(rs.getDouble(4));
                 r.setPrice_package_id(pp);
                 r.setCreated(rs.getTimestamp(5));
@@ -421,7 +421,7 @@ public class UserDBContext extends DBContext {
                 c.setName(rs.getString(2));
                 c.setImage(rs.getString(3));
                 r.setCourse_id(c);
-                Price_package pp = new Price_package();
+                PricePackage pp = new PricePackage();
                 pp.setPrice(rs.getDouble(4));
                 r.setPrice_package_id(pp);
                 r.setCreated(rs.getTimestamp(5));
@@ -461,7 +461,7 @@ public class UserDBContext extends DBContext {
                 c.setName(rs.getString(2));
                 c.setImage(rs.getString(3));
                 r.setCourse_id(c);
-                Price_package pp = new Price_package();
+                PricePackage pp = new PricePackage();
                 pp.setPrice(rs.getDouble(4));
                 r.setPrice_package_id(pp);
                 r.setCreated(rs.getTimestamp(5));
@@ -500,7 +500,7 @@ public class UserDBContext extends DBContext {
                 c.setName(rs.getString(2));
                 c.setImage(rs.getString(3));
                 r.setCourse_id(c);
-                Price_package pp = new Price_package();
+                PricePackage pp = new PricePackage();
                 pp.setPrice(rs.getDouble(4));
                 r.setPrice_package_id(pp);
                 r.setCreated(rs.getTimestamp(5));
@@ -541,7 +541,7 @@ public class UserDBContext extends DBContext {
                 c.setName(rs.getString(2));
                 c.setImage(rs.getString(3));
                 r.setCourse_id(c);
-                Price_package pp = new Price_package();
+                PricePackage pp = new PricePackage();
                 pp.setPrice(rs.getDouble(4));
                 r.setPrice_package_id(pp);
                 r.setCreated(rs.getTimestamp(5));

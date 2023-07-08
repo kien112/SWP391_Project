@@ -34,10 +34,11 @@ public class SubjectDAO extends DBContext {
                 + "left join subject_category sc on sc.id = s.category_id\n"
                 + "left join [user] u on u.user_id = s.author_id\n"
                 + "left join Course c on c.course_id = s.course_id\n"
-                + "where s.course_id = ?";
+                + "where (? = -1 or s.course_id = ?)";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setInt(1, courseId);
+            ps.setInt(2, courseId);
             rs = ps.executeQuery();
             while (rs.next()) {
                 Subject subject = new Subject();
@@ -66,6 +67,33 @@ public class SubjectDAO extends DBContext {
             System.out.println(e.getMessage());
         }
         return listC;
+    }
+    
+    
+    public List<Subject> getSimpleSubjects(int courseId){
+        ResultSet rs = null;
+        
+        try {
+            List<Subject> list = new ArrayList<>();
+            String sql = "select id, name from [subject]"
+                    + " where (? = -1 or course_id = ?)";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, courseId);
+            ps.setInt(2, courseId);
+            
+            rs = ps.executeQuery();
+            
+            while (rs.next()) {                
+                Subject subject = new Subject();
+                subject.setId(rs.getInt(1));
+                subject.setName(rs.getString(2));
+                list.add(subject);
+            }
+            return list;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
     
     public void addNewCourse(Subject s) {

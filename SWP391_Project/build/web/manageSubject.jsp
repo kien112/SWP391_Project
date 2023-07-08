@@ -20,6 +20,9 @@
             <a style="margin: 10px; margin-top: 20px;" href="subjects?action=create" class="btn btn-success float-right">
                     <i class="fa fa-plus"></i> New subject
                 </a>
+            <a style="margin: 10px; margin-top: 20px;" href="subjects?action=subjectDetails" class="btn btn-success">
+                Subject Details
+                </a>
         <table id="tableData">
             <thead>
                 <tr>
@@ -38,7 +41,7 @@
                             <img src="${s.illustration}" width="30" height="30" alt="alt"/>
                         </th>
                         <th>
-                            Edit
+                            <a href="lessons?subjectId=${s.id}">List Lesson</a>
                         </th>
                     </tr>
                 </c:forEach> 
