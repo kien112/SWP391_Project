@@ -15,12 +15,13 @@
     </head>
     <body>
         <div style="margin-left: 300px" class="time-out">
+            <h3>Exam: ${exam.name}</h3>
             <input hidden="" id="duration" value="${exam.duration}"/>
             <span id="timer"></span><span id="view-duration">/ ${exam.duration} minutes</span>
         </div>
-        <div id="contentExam" style="margin: 100px 300px;">
+        <div id="contentExam" style="margin: 50px 300px;">
             <c:forEach items="${listQ}" var="q">
-                <div class="row card mb-3">
+                <div class="row card mb-3 shadow p-3 bg-body-tertiary rounded">
                     <div class="col-md-12">Question ${q.order}: ${q.content}</div>
                     <div class="row">
                         <div class="col-md-6">
@@ -63,12 +64,12 @@
         });
       
       
-        var minutes = 39, seconds = 55, time;
+        var minutes = 0, seconds = 0, time;
         function Start() {
             var x = document.getElementById("duration").value;
             if (minutes + "" === x) {
                 GetResult();
-                clearInterval(count);
+//                clearInterval(count);
             } else {
                 seconds++;
                 if (seconds === 60) {
@@ -106,6 +107,7 @@
                 },
                 success: function (data) {
                     $('#contentExam').html(data);
+                    clearInterval(count);
                 }
             });
         }

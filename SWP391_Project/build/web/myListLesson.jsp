@@ -17,19 +17,19 @@
         <jsp:include page="header.jsp" /> 
         <div style="margin-top: 70px"></div>
         <input id="content" value="${content}" hidden=""/>
-        <div style="height: 500px" class="row">
-            <div class="col-md-4">
-                <ul>
+        <div style="height: 500px;" class="row">
+            <div class="col-md-3">
+                <ul class="">
                     <c:forEach items="${listL}" var="l">
-                        <li>
-                            <a href="myListLesson?lessonId=${l.id}">
-                                ${l.name}
+                        <li class="nav-item border shadow p-3 mb-2 bg-body-tertiary rounded">
+                            <a class="nav-link" href="myListLesson?lessonId=${l.id}">
+                                <h4>${l.name}</h4> 
                             </a>
                         </li>
                     </c:forEach>
                 </ul>
             </div>
-            <div id="lessonContent" class="col-md-8">
+            <div id="lessonContent" class="col-md-8 shadow p-3 mb-5 bg-body-tertiary rounded">
                 
             </div>
         </div>

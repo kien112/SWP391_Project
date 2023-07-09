@@ -131,7 +131,7 @@ public class PracticeExam extends HttpServlet {
         out.print("<div>Result: "+score+"</div>");
         
         for (Question q : listQ) {
-            String text = "<div class=\"row card mb-3\">\n" +
+            String text = "<div class=\"row card mb-3 shadow p-3 bg-body-tertiary rounded\">\n" +
 "                    <div class=\"col-md-12\">Question"+ q.getOrder() +": "+q.getContent()+"</div>\n" +
 "                    <div class=\"row\">\n" ;
             String op = isExistId(q.getId(), ids, options);

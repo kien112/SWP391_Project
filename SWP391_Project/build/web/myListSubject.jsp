@@ -16,7 +16,7 @@
     <body>
         <jsp:include page="header.jsp" /> 
         <div style="margin-top: 70px"></div>
-        <table id="tableData">
+        <table id="tableData" class="table-bordered">
             <thead>
                 <tr>
                     <th>Name</th>
