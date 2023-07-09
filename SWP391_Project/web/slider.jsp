@@ -8,7 +8,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="CSS/slider.css" rel="stylesheet" type="text/css"/>       
+        <link href="./CSS/slider.css" rel="stylesheet" type="text/css"/>       
     </head>
     <body>
         <!-- NOTE: None of the included images are mine and I take no credit for them!! -->

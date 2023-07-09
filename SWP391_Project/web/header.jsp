@@ -136,6 +136,7 @@
                     <a class="nav-link active" aria-current="page" href="courses" style="font-size: 20px; margin-left: 20px;">Course</a>
                     <ul>         
                         <c:if test="${user!=null}">
+                            <li><a href="myListCourse">My List Course</a></li>
                             <li><a href="myCourse">My Course</a></li>  
                             <li><a href="myRegistration">My Registration</a></li>  
                             </c:if>                                                                            
@@ -152,7 +153,11 @@
                         <a class="nav-link" href="#" onclick="showModal('registerModal')" style="font-size: 20px; margin-left: 20px;">Register</a>
                     </li>
                 </c:if>   
-
+                <c:if test="${sessionScope.user.role_id == 4 || sessionScope.user.role_id == 5}">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="manageCourse">Manage Course</a>
+                    </li>
+                </c:if>
                 <c:if test="${sessionScope.user.role_id == 4}">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="subject">Subject List</a>

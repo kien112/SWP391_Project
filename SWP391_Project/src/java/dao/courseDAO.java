@@ -40,6 +40,31 @@ public class courseDAO extends DBContext {
         return listC;
     }
 
+    public List<Course> getAllCourseByEmail(String email) {
+        ResultSet rs = null;
+
+        List<Course> listC = new ArrayList<>();
+        String sql = "select c.* from course c\n"
+                + "left join registrations r\n"
+                + "on r.course_id = c.course_id\n"
+                + "where r.email = ?";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, email);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                listC.add(new Course(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getDouble(4),
+                        rs.getString(6),
+                        rs.getString(9)));
+            }
+        } catch (Exception e) {
+        }
+        return listC;
+    }
+
     public List<Course> getAllCourseList() {
         ResultSet rs = null;
 
@@ -86,6 +111,7 @@ public class courseDAO extends DBContext {
         }
         return listC;
     }
+
     public List<Course> getListCourses(String search, String cateId, String sortType, String index) {
         int curIndex = Integer.valueOf(index);
         String orderBy = "order by c.[course_id] asc";
@@ -186,8 +212,6 @@ public class courseDAO extends DBContext {
         }
         return 0;
     }
-    
-    
 
     public List<CourseCategory> getBlogCategories() {
         List<CourseCategory> listB = new ArrayList<>();
@@ -222,7 +246,7 @@ public class courseDAO extends DBContext {
 //            System.out.println(c.getBrief_infor());
 //        }
     }
-    
+
     public Course findByCouseId(int courseId) {
         try {
             PreparedStatement ps;
@@ -248,8 +272,8 @@ public class courseDAO extends DBContext {
         }
         return null;
     }
-    
-     public List<Course> getSubjectList(String name, String sortCate, String sortSTT, int index) {
+
+    public List<Course> getSubjectList(String name, String sortCate, String sortSTT, int index) {
         List<Course> listS = new ArrayList<>();
         String sql = "SELECT [course_id]\n"
                 + "         ,c.[name]\n"
@@ -271,7 +295,7 @@ public class courseDAO extends DBContext {
             pre.setString(1, "%" + name + "%");
             pre.setString(2, "%" + sortCate + "%");
             pre.setString(3, "%" + sortSTT + "%");
-            pre.setInt(4, ((index-1)*8) );
+            pre.setInt(4, ((index - 1) * 8));
             ResultSet rs = pre.executeQuery();
             while (rs.next()) {
                 Course c = new Course(rs.getInt(1),
@@ -374,6 +398,5 @@ public class courseDAO extends DBContext {
         }
         return false;
     }
-
 
 }

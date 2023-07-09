@@ -65,10 +65,10 @@ public class ExamDAO extends DBContext {
 
         return null;
     }
-    
-    public List<ExamType> getAllExamTypes(){
+
+    public List<ExamType> getAllExamTypes() {
         ResultSet rs = null;
-        
+
         try {
             String sql = "select * from exam_type";
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -81,7 +81,7 @@ public class ExamDAO extends DBContext {
                 list.add(t);
             }
             return list;
-            
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -152,6 +152,66 @@ public class ExamDAO extends DBContext {
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public Float viewLastScore(String email, int id) {
+        ResultSet rs = null;
+        try {
+            String sql = "select top 1 score\n"
+                    + "from exam_score \n"
+                    + "where email = ? and exam_id = ?\n"
+                    + "order by id desc";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, email);
+            ps.setInt(2, id);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getFloat(1);
+            }
+
+        } catch (Exception e) {
+        }
+        return 0f;
+    }
+
+    public Exam getExamById(int id) {
+        ResultSet rs = null;
+
+        try {
+            String sql = "select * from exam where id = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, id);
+
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                Exam ex = new Exam();
+                ex.setId(rs.getInt("id"));
+                ex.setName(rs.getString("name"));
+                ex.setDuration(rs.getInt("duration"));
+                ex.setPass_rate(rs.getFloat("pass_rate"));
+
+                return ex;
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public void insertScore(String email, int examId, float score) {
+        try {
+            String sql = "insert into exam_score(email, exam_id, score)\n"
+                    + "values(?,?,?)";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, email);
+            ps.setInt(2, examId);
+            ps.setFloat(3, score);
+            
+            ps.executeUpdate();
+        } catch (Exception e) {
         }
     }
 

@@ -66,7 +66,12 @@
                     <P style="text-align: center;font-size: 18px;" >Original Price: ${course.original_price}vnd</P>     
                     <P style="text-align: center;font-size: 18px;" >Sale price: ${pp.price}vnd</P>
                     <c:if test="${checkRegister eq true}"><button >Registered</button></c:if>
-                    <div style="text-align: center;"> <c:if test="${checkRegister eq false}"><button onclick="showModal('registerCourseModal')">Register Course</button></c:if></div>
+                    <div style="text-align: center;">
+                        <c:if test="${checkRegister eq false && message == null}">
+                            <button onclick="showModal('registerCourseModal')">Register Course</button>
+                        </c:if>
+                            <p>${message}</p>
+                    </div>
                     </div>
                     <!-- Register Course Modal -->
                     <div class="modal" id="registerCourseModal">
@@ -77,8 +82,12 @@
 
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" action="register">
+                                    <form method="POST" action="registrations">
                                         <input type="hidden" value="${course.course_id}" name="courseId">
+                                    <input value="registrationCourse" name="action" hidden=""/>
+                                    <div>
+                                        <input name="email" type="email"/>
+                                    </div>
                                     Choose your price packages: 
                                     <select name="price_packageId">
                                         <c:forEach items="${price_packages}" var="pp">

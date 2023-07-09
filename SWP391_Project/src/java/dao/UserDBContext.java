@@ -67,6 +67,25 @@ public class UserDBContext extends DBContext {
         }
         return false;
     }
+    
+    
+    public void insertUser(User user){
+        try {
+            String sql = "insert into [User] (email, full_name,"
+                    + "password, is_verified, status, role_id) "
+                    + "values(?,?,?,1,1,1)";
+            
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, user.getEmail());
+            ps.setString(2, user.getFull_name());
+            ps.setString(3, user.getPassword());
+            
+            ps.executeUpdate();
+            
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     public User findByEmail(String email) {
         try {

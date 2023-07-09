@@ -4,7 +4,7 @@ package model;
 import java.sql.Date;
 
 
-public class Question {
+public class Question extends QuestionExam{
     private int id;
     private Subject subject;
     private Lesson lesson;

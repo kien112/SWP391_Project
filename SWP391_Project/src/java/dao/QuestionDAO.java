@@ -115,6 +115,45 @@ public class QuestionDAO extends DBContext {
         return null;
     }
 
+    public List<Question> getAllQuestionByExamId(int examId) {
+        ResultSet rs = null;
+
+        try {
+            List<Question> list = new ArrayList<>();
+            String sql = "select q.id, q.content, q.option_a, q.option_b,\n"
+                    + "q.option_c, q.option_d, q.answer,\n"
+                    + "q.explanation, qe.marks_allocated,\n"
+                    + "qe.question_order\n"
+                    + "from question q join question_exam qe\n"
+                    + "on q.id = qe.question_id\n"
+                    + "where qe.exam_id = ?\n"
+                    + "order by qe.question_order";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, examId);
+            
+            rs = ps.executeQuery();
+            
+            while(rs.next()){
+                Question q = new Question();
+                q.setId(rs.getInt("id"));
+                q.setContent(rs.getString("content"));
+                q.setOption_a(rs.getString("option_a"));
+                q.setOption_b(rs.getString("option_b"));
+                q.setOption_c(rs.getString("option_c"));
+                q.setOption_d(rs.getString("option_d"));
+                q.setAnswer(rs.getString("answer"));
+                q.setExplanation(rs.getString("explanation"));
+                q.setMark(rs.getFloat("marks_allocated"));
+                q.setOrder(rs.getInt("question_order"));
+                
+                list.add(q);
+            }
+            return list;
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
     public List<Object[]> getQuestionsFromExcel(String file) throws FileNotFoundException, IOException {
         File myFile = new File(file);
         FileInputStream fis = new FileInputStream(myFile);
@@ -131,14 +170,14 @@ public class QuestionDAO extends DBContext {
         // Traversing over each row of XLSX file
         while (rowIterator.hasNext()) {
             Row row = rowIterator.next();
-            if(row.getRowNum()>0){
+            if (row.getRowNum() > 0) {
                 // For each row, iterate through each columns
                 Iterator<Cell> cellIterator = row.cellIterator();
                 Object[] obj = new Object[8];
                 while (cellIterator.hasNext()) {
 
                     Cell cell = cellIterator.next();
-                    if(cell.getColumnIndex() < 8){
+                    if (cell.getColumnIndex() < 8) {
                         switch (cell.getCellType()) {
                             case Cell.CELL_TYPE_STRING:
                                 obj[cell.getColumnIndex()] = cell.getStringCellValue();
@@ -159,26 +198,26 @@ public class QuestionDAO extends DBContext {
         }
         return list;
     }
-    
-    public void insertQuestionToDBFromExcel(List<Object[]> list, Question q){
+
+    public void insertQuestionToDBFromExcel(List<Object[]> list, Question q) {
         Question question = new Question();
         question.setLesson(new Lesson());
         question.getLesson().setId(q.getLesson().getId());
         List<Level> levels = getAllLevelsByStatus(-1);
         for (Object[] obj : list) {
-            if(obj[0] != null){
+            if (obj[0] != null) {
                 for (int i = 0; i < obj.length; i++) {
-                    question.setContent((String)obj[0]);
-                    question.setOption_a((String)obj[1]);
-                    question.setOption_b((String)obj[2]);
-                    question.setOption_c((String)obj[3]);
-                    question.setOption_d((String)obj[4]);
-                    question.setAnswer((String)obj[5]);
-                    question.setExplanation((String)obj[6]);
+                    question.setContent((String) obj[0]);
+                    question.setOption_a((String) obj[1]);
+                    question.setOption_b((String) obj[2]);
+                    question.setOption_c((String) obj[3]);
+                    question.setOption_d((String) obj[4]);
+                    question.setAnswer((String) obj[5]);
+                    question.setExplanation((String) obj[6]);
                     int level = levels.get(0).getId();
-                    if(obj[7]!=null){
+                    if (obj[7] != null) {
                         for (Level le : levels) {
-                            if(le.getLevel().equals(obj[7])){
+                            if (le.getLevel().equals(obj[7])) {
                                 level = le.getId();
                                 break;
                             }
@@ -201,7 +240,7 @@ public class QuestionDAO extends DBContext {
 
         // Return first sheet from the XLSX workbook
         XSSFSheet mySheet = myWorkBook.getSheetAt(0);
-        CellRangeAddressList addressList = new CellRangeAddressList(1,4,1,1);
+        CellRangeAddressList addressList = new CellRangeAddressList(1, 4, 1, 1);
         DataValidationHelper dvHelper = mySheet.getDataValidationHelper();
         DataValidationConstraint dvConstraint = dvHelper.createFormulaListConstraint("myDataArea");
         DataValidation dataValidation = dvHelper.createValidation(dvConstraint, addressList);
@@ -243,8 +282,7 @@ public class QuestionDAO extends DBContext {
 //        myWorkBook.write(os);
         System.out.println("Writing on XLSX file Finished ...");
     }
-    
-    
+
     public List<Level> getAllLevelsByStatus(int status) {
         ResultSet rs = null;
 
@@ -335,14 +373,17 @@ public class QuestionDAO extends DBContext {
 
     public static void main(String[] args) {
         QuestionDAO dao = new QuestionDAO();
-        try {
-            Question q = new Question();
-            q.setLesson(new Lesson());
-            q.getLesson().setId(6);
-            List<Object[]> list = dao.getQuestionsFromExcel("E:\\excel\\Book1.xlsx");
-            dao.insertQuestionToDBFromExcel(list, q);
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+//        try {
+//            Question q = new Question();
+//            q.setLesson(new Lesson());
+//            q.getLesson().setId(6);
+//            List<Object[]> list = dao.getQuestionsFromExcel("E:\\excel\\Book1.xlsx");
+//            dao.insertQuestionToDBFromExcel(list, q);
+//        } catch (IOException ex) {
+//            System.out.println(ex.getMessage());
+//        }
+        for (Question question : dao.getAllQuestionByExamId(2)) {
+            System.out.println(question.getContent());
         }
     }
 }

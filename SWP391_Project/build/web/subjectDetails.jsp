@@ -167,6 +167,10 @@
                                     <input name="action" value="createPricePackage" hidden=""/>
                                     <div class="modal-body">
                                         <div>
+                                            <label>Name:</label>
+                                            <input type="text" name="name" required=""/>
+                                        </div>
+                                        <div>
                                             <label>Duration:</label>
                                             <input type="number" name="duration" required=""/>
                                         </div>
@@ -210,6 +214,10 @@
                                     <input name="id" hidden="" id="pricePackageId"/>
                                     <div class="modal-body">
                                         <div>
+                                            <label>Name:</label>
+                                            <input type="text" id="pName" name="name" required=""/>
+                                        </div>
+                                        <div>
                                             <label>Duration:</label>
                                             <input type="number" name="duration" id="duration" required=""/>
                                         </div>
@@ -244,6 +252,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Name</th>
                                 <th>Duration</th>
                                 <th>Price</th>
                                 <th>Sale</th>
@@ -255,12 +264,14 @@
                             <c:forEach items="${listP}" var="p">
                                 <tr>
                                     <td>${p.id}</td>
+                                    <td>${p.name}</td>
                                     <td>${p.duration}</td>
                                     <td>${p.price}</td>
                                     <td>${p.sale}</td>
                                     <td>${p.status}</td>
                                     <td>
-                                        <button onclick="GetPricePackage('${p.id}','${p.duration}','${p.price}','${p.sale}','${p.status}')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPricePackage">
+                                        <button onclick="GetPricePackage('${p.id}','${p.name}','${p.duration}','${p.price}','${p.sale}','${p.status}')" 
+                                                type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPricePackage">
                                             Edit
                                         </button>
                                         <a href="subjects?action=changeStatus&pid=${p.id}">${p.status ? "DeActive" : "Active"}</a>
@@ -283,8 +294,9 @@
                 document.getElementById("dimension_description").value = description;
             }
             
-            function GetPricePackage(id, duration, price, sale, status){
+            function GetPricePackage(id, name, duration, price, sale, status){
                 document.getElementById("pricePackageId").value = id;
+                document.getElementById("pName").value = name;
                 document.getElementById("duration").value = duration;
                 document.getElementById("price").value = price;
                 document.getElementById("sale").value = sale;

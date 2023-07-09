@@ -14,16 +14,18 @@ public class PricePackage {
     private double price;
     private double sale;
     private boolean status;
+    private String name;
 
     public PricePackage() {
     }
 
-    public PricePackage(int id, int duration, double price, double sale, boolean status) {
+    public PricePackage(int id, int duration, double price, double sale, boolean status, String name) {
         this.id = id;
         this.duration = duration;
         this.price = price;
         this.sale = sale;
         this.status = status;
+        this.name = name;
     }
 
     public int getId() {
@@ -65,5 +67,14 @@ public class PricePackage {
     public void setStatus(boolean status) {
         this.status = status;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     
 }

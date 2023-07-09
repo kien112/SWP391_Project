@@ -232,8 +232,9 @@ public class SubjectController extends HttpServlet {
         double price = Double.parseDouble(request.getParameter("price"));
         double sale = Double.parseDouble(request.getParameter("sale"));
         boolean status = request.getParameter("status").equals("1");
+        String name = request.getParameter("name");
 
-        PricePackage pricePackage = new PricePackage(1, duration, price, sale, status);
+        PricePackage pricePackage = new PricePackage(1, duration, price, sale, status, name);
         price_PackageDAO.addNewPricePackage(pricePackage);
 
     }
@@ -244,8 +245,9 @@ public class SubjectController extends HttpServlet {
         double price = Double.parseDouble(request.getParameter("price"));
         double sale = Double.parseDouble(request.getParameter("sale"));
         boolean status = request.getParameter("status").equals("1");
+        String name = request.getParameter("name");
 
-        PricePackage pricePackage = new PricePackage(1, duration, price, sale, status);
+        PricePackage pricePackage = new PricePackage(id, duration, price, sale, status, name);
         price_PackageDAO.updatePricePackage(pricePackage);
     }
 
