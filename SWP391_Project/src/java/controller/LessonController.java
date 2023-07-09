@@ -154,7 +154,7 @@ public class LessonController extends HttpServlet {
     }
     
     private void changeStatusLesson(HttpServletRequest request, HttpServletResponse response) {
-        int id = Integer.parseInt(request.getParameter("qid"));
+        int id = Integer.parseInt(request.getParameter("lessonId"));
         lessonDAO.changeStatusLesson(id);
     }
     

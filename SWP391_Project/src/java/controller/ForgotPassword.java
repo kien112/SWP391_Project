@@ -14,6 +14,7 @@ import javax.mail.internet.MimeMessage;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -62,6 +63,9 @@ public class ForgotPassword extends HttpServlet {
             }
             dispatcher = request.getRequestDispatcher("forgotPassword.jsp");
             request.setAttribute("message", "OTP is sent to your email id");
+            Cookie c = new Cookie("randomOtp", randomOtp);
+            c.setMaxAge(5);
+            response.addCookie(c);
             mySession.setAttribute("otp", randomOtp);
             mySession.setAttribute("email", email);
             dispatcher.forward(request, response);

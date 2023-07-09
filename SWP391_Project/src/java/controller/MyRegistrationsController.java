@@ -1,7 +1,8 @@
 
+
 package controller;
 
-import dao.ExamDAO;
+import dao.RegistrationDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -9,17 +10,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
-import javax.mail.Session;
-import model.Exam;
+import model.Registrations;
+import model.User;
 
 
-@WebServlet(name="MyListExam", urlPatterns={"/myListExam"})
-public class MyListExam extends HttpServlet {
+@WebServlet(name="MyRegistrationsController", urlPatterns={"/myRegistrations"})
+public class MyRegistrationsController extends HttpServlet {
    
-    ExamDAO examDAO = new ExamDAO();
-    int subjectId = -3;
+    RegistrationDAO registrationDAO = new RegistrationDAO();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -28,39 +27,39 @@ public class MyListExam extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MyListExam</title>");  
+            out.println("<title>Servlet MyRegistrationsController</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet MyListExam at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet MyRegistrationsController at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
     } 
 
-    
+  
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
 //        processRequest(request, response);
-        try {
-            subjectId = Integer.parseInt(request.getParameter("subjectId"));
-        } catch (Exception e) {
-        }
-        List<Exam> listE = examDAO.getAllExam(subjectId, -1, "");
+
+        User u = (User) request.getSession().getAttribute("user");
+        List<Registrations> listR = registrationDAO.getAllRegistrations("", null, null, -1, u.getEmail());
         
-        request.setAttribute("subjectId", subjectId);
-        request.setAttribute("listE", listE);
-        request.getRequestDispatcher("myListExam.jsp").forward(request, response);
+        request.setAttribute("listR", listR);
+        request.getRequestDispatcher("myRegistrations.jsp").forward(request, response);
     } 
 
-    
+   
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    
+    /** 
+     * Returns a short description of the servlet.
+     * @return a String containing servlet description
+     */
     @Override
     public String getServletInfo() {
         return "Short description";

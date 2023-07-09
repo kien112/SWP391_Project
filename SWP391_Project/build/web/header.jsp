@@ -138,7 +138,7 @@
                         <c:if test="${user!=null}">
                             <li><a href="myListCourse">My List Course</a></li>
                             <li><a href="myCourse">My Course</a></li>  
-                            <li><a href="myRegistration">My Registration</a></li>  
+                            <li><a href="myRegistrations">My Registration</a></li>  
                             </c:if>                                                                            
                     </ul>
                 </li>
@@ -156,6 +156,11 @@
                 <c:if test="${sessionScope.user.role_id == 4 || sessionScope.user.role_id == 5}">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="manageCourse">Manage Course</a>
+                        <ul>         
+                            <li><a href="questions">Manage Question</a></li>
+                            <li><a href="manageExams">Manage Exam</a></li>  
+                            <li><a href="registrations">Registration</a></li>  
+                        </ul>
                     </li>
                 </c:if>
                 <c:if test="${sessionScope.user.role_id == 4}">

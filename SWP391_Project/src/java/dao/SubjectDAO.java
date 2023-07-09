@@ -69,6 +69,54 @@ public class SubjectDAO extends DBContext {
         return listC;
     }
     
+     public List<Subject> getAllSubjectLast7Days() {
+        ResultSet rs = null;
+
+        List<Subject> listC = new ArrayList<>();
+        String sql = "select s.id, s.illustration, s.name, \n"
+                + "s.status, s.description, s.modified,\n"
+                + "s.featured,\n"
+                + "d.name as dimension_name, \n"
+                + "sc.name as category_name,\n"
+                + "u.full_name, c.name as course_name \n"
+                + "from [subject] s \n"
+                + "left join dimension d on d.id = s.dimension_id\n"
+                + "left join subject_category sc on sc.id = s.category_id\n"
+                + "left join [user] u on u.user_id = s.author_id\n"
+                + "left join Course c on c.course_id = s.course_id\n"
+                + "where DATEDIFF(DAY,s.modified,GETDATE()) <= 7";
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+   
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Subject subject = new Subject();
+                subject.setId(rs.getInt("id"));
+                subject.setIllustration(rs.getString("illustration"));
+                subject.setName(rs.getString("name"));
+                subject.setStatus(rs.getBoolean("status"));
+                subject.setDescription(rs.getString("description"));
+                subject.setModified(rs.getDate("modified"));
+                subject.setFeatured(rs.getBoolean("featured"));
+                
+                Dimension dimension = new Dimension();
+                dimension.setName(rs.getString("dimension_name"));
+                subject.setDimension(dimension);
+                
+                SubjectCategory category = new SubjectCategory();
+                category.setName(rs.getString("category_name"));
+                subject.setCategory(category);
+                
+                subject.setAuthor_name(rs.getString("full_name"));
+                subject.setCourse_name(rs.getString("course_name"));
+                
+                listC.add(subject);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return listC;
+    }
     
     public List<Subject> getSimpleSubjects(int courseId){
         ResultSet rs = null;
@@ -98,8 +146,8 @@ public class SubjectDAO extends DBContext {
     
     public void addNewCourse(Subject s) {
         String sql = "insert into Subject(name, category_id, author_id,"
-                + " description, illustration, status, featured, course_id) "
-                + " values(?,?,?,?,?,?,?,?)";
+                + " description, illustration, status, featured, course_id, modified) "
+                + " values(?,?,?,?,?,?,?,?,GETDATE())";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, s.getName());

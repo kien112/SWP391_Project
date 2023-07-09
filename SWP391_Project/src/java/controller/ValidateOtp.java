@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,19 +23,28 @@ public class ValidateOtp extends HttpServlet {
         String value = request.getParameter("otp");
         HttpSession mySession = request.getSession();
         String otp = (String) mySession.getAttribute("otp");
-        RequestDispatcher dispatcher = null;
-
-        if (value.equals(otp)) {
-            request.setAttribute("email", request.getParameter("email"));
-//            request.setAttribute("status", "success");
-            dispatcher = request.getRequestDispatcher("newPassword.jsp");
-            dispatcher.forward(request, response);
-
-        } else {
-            request.setAttribute("message", "wrong otp");
-
-            dispatcher = request.getRequestDispatcher("EnterOtp.jsp");
-            dispatcher.forward(request, response);
+        Cookie[] c = request.getCookies();
+        PrintWriter out = response.getWriter();
+        for (Cookie cookie : c) {
+            if(cookie.getName().equals("randomOtp")){
+                out.print("ok");
+                return;
+            }
         }
+        out.print("out age");
+//        RequestDispatcher dispatcher = null;
+//
+//        if (value.equals(otp)) {
+//            request.setAttribute("email", request.getParameter("email"));
+////            request.setAttribute("status", "success");
+//            dispatcher = request.getRequestDispatcher("newPassword.jsp");
+//            dispatcher.forward(request, response);
+//
+//        } else {
+//            request.setAttribute("message", "wrong otp");
+//
+//            dispatcher = request.getRequestDispatcher("EnterOtp.jsp");
+//            dispatcher.forward(request, response);
+//        }
     }
 }

@@ -16,19 +16,19 @@
         <!--<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>-->
     </head>
 
-    <body>
+    <body class="fs-3">
         <%@include file="header.jsp" %>
 
         <div style="height: 500px; margin: 50px 0px;">
-            <ul style="width: 300px" class="row" role="tablist">
-                <span class="m-3 col-md-2 nav-item" role="presentation">
+            <ul style="width: 550px" class="row" role="tablist">
+                <span class="col-md-4 nav-item" role="presentation">
                     <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Overview</button>
                 </span>
-                <span class="m-3 col-md-2 nav-item" role="presentation">
+                <span class="col-md-4 nav-item" role="presentation">
                     <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Dimension</button>
                 </span>
-                <span class="m-3 col-md-2 nav-item" role="presentation">
-                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Price Package</button>
+                <span class="col-md-3 nav-item" role="presentation">
+                    <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false"> Package</button>
                 </span>
             </ul>
             <div class="tab-content" id="myTabContent">

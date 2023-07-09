@@ -13,7 +13,7 @@
          <!--phân trang-->
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
     </head>
-    <body>
+    <body class="fs-3">
         <jsp:include page="header.jsp" /> 
         <div style="margin-top: 70px"></div>
         <input id="content" value="${content}" hidden=""/>

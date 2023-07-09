@@ -14,47 +14,47 @@
          <!--phân trang-->
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
     </head>
-    <body>
+    <body class="fs-3">
         <jsp:include page="header.jsp" />  
         <div style="margin-top: 60px; margin-left: 50px">
             <h4>Filter & Search:</h4>
             <form action="questions" method="post">
                 <input value="filterAndSearch" name="action" hidden=""/>
-                <label>Level: </label>
+                <label class="fs-3">Level: </label>
                 <select name="level">
                     <option value="-1" ${-1==levelId?"selected":""}>--Level--</option>
                     <c:forEach items="${listLevels}" var="l">
                         <option value="${l.id}" ${l.id==levelId?"selected":""}>${l.level}</option>
                     </c:forEach> 
                 </select>
-                <label>Subject: </label>
+                <label class="fs-3">Subject: </label>
                 <select name="subject">
                     <option value="-1" ${-1==subjectId?"selected":""}>--Subject--</option>
                     <c:forEach items="${listS}" var="s">
                         <option value="${s.id}" ${s.id==subjectId?"selected":""}>${s.name}</option>
                     </c:forEach>
                 </select>
-                <label>Lesson: </label>
+                <label class="fs-3">Lesson: </label>
                 <select name="lesson">
                     <option value="-1" ${-1==lessonId?"selected":""}>--Lesson--</option>
                     <c:forEach items="${listL}" var="s">
                         <option value="${s.id}" ${s.id==lessonId?"selected":""}>${s.name}</option>
                     </c:forEach>
                 </select>
-                <label>Dimension: </label>
+                <label class="fs-3">Dimension: </label>
                 <select name="dimension">
                     <option value="-1" ${-1==dimensionId?"selected":""}>--Dimension--</option>
                     <c:forEach items="${listD}" var="s">
                         <option value="${s.id}" ${s.id==dimensionId?"selected":""}>${s.name}</option>
                     </c:forEach>
                 </select>
-                <label>Status: </label>
+                <label class="fs-3">Status: </label>
                 <select name="status">
                     <option value="-1" ${status==-1?"selected":""}>--Status--</option>
                     <option value="1" ${status==1?"selected":""}>Active</option>
                     <option value="0" ${status==0?"selected":""}>InActive</option>
                 </select>
-                <label>Content: </label>
+                <label class="fs-3">Content: </label>
                 <textarea name="searchContent">${searchContent}</textarea> 
                 <button type="submit" class="btn btn-primary">Filter & Search</button>
             </form>
@@ -259,7 +259,7 @@
             </div>
         </div>
         
-        <table class="table-striped table-bordered" style="margin-bottom: 100px;" id="tableData">
+        <table class="table-striped table-bordered fs-3" style="margin-bottom: 100px;" id="tableData">
             <thead>
                 <tr>
                     <th>ID</th>

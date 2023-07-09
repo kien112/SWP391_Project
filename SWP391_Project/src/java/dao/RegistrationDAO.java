@@ -72,6 +72,53 @@ public class RegistrationDAO extends DBContext {
 
     }
 
+    public List<Registrations> getAllRegistrations7Day() {
+
+        ResultSet rs = null;
+        List<Registrations> list = new ArrayList<>();
+        try {
+            String sql = "select r.id, r.email, r.registration_time,\n"
+                    + "r.course_id, c.name as course_name,\n"
+                    + "r.price_package_id, \n"
+                    + "p.price, p.name as package,\n"
+                    + "p.sale, r.status, r.valid_from,\n"
+                    + "r.valid_to, r.update_by\n"
+                    + "from registrations r left join Course c\n"
+                    + "on r.course_id = c.course_id\n"
+                    + "left join price_package p\n"
+                    + "on p.id = r.price_package_id\n"
+                    + "where DATEDIFF(DAY,r.registration_time,GETDATE()) <= 7";
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Registrations r = new Registrations();
+                r.setId(rs.getInt("id"));
+                r.setEmail(rs.getString("email"));
+                r.setRegistration_time(rs.getDate("registration_time"));
+                r.setCourse_id(rs.getInt("course_id"));
+                r.setCourse_name(rs.getString("course_name"));
+                r.setPricePackage(new PricePackage());
+                r.getPricePackage().setId(rs.getInt("price_package_id"));
+                r.getPricePackage().setPrice(rs.getDouble("price"));
+                r.getPricePackage().setName(rs.getString("package"));
+                r.getPricePackage().setSale(rs.getDouble("sale"));
+                r.setStatus(rs.getInt("status"));
+                r.setValid_from(rs.getDate("valid_from"));
+                r.setValid_to(rs.getDate("valid_to"));
+                r.setUpdate_by(rs.getString("update_by"));
+
+                list.add(r);
+            }
+            return list;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+
+    }
+    
     public void addNewRegistration(Registrations r) {
         try {
             String sql = "insert into registrations(email, registration_time,\n"

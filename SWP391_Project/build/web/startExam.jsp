@@ -13,7 +13,7 @@
         <!--phân trang-->
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
     </head>
-    <body>
+    <body class="fs-3">
         <div style="margin-left: 300px" class="time-out">
             <h3>Exam: ${exam.name}</h3>
             <input hidden="" id="duration" value="${exam.duration}"/>

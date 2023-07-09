@@ -1,7 +1,8 @@
 
 package controller;
 
-import dao.ExamDAO;
+import dao.RegistrationDAO;
+import dao.SubjectDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -9,17 +10,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
-import javax.mail.Session;
-import model.Exam;
+import model.Registrations;
+import model.Subject;
 
 
-@WebServlet(name="MyListExam", urlPatterns={"/myListExam"})
-public class MyListExam extends HttpServlet {
+@WebServlet(name="DashboardController", urlPatterns={"/dashboard"})
+public class DashboardController extends HttpServlet {
    
-    ExamDAO examDAO = new ExamDAO();
-    int subjectId = -3;
+    SubjectDAO subjectDAO = new SubjectDAO();
+    RegistrationDAO registrationDAO = new RegistrationDAO();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -28,10 +28,10 @@ public class MyListExam extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MyListExam</title>");  
+            out.println("<title>Servlet DashboardController</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet MyListExam at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet DashboardController at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -42,15 +42,12 @@ public class MyListExam extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
 //        processRequest(request, response);
-        try {
-            subjectId = Integer.parseInt(request.getParameter("subjectId"));
-        } catch (Exception e) {
-        }
-        List<Exam> listE = examDAO.getAllExam(subjectId, -1, "");
+        List<Subject> listS = subjectDAO.getAllSubjectLast7Days();
+        List<Registrations> listR = registrationDAO.getAllRegistrations7Day();
         
-        request.setAttribute("subjectId", subjectId);
-        request.setAttribute("listE", listE);
-        request.getRequestDispatcher("myListExam.jsp").forward(request, response);
+        request.setAttribute("listS", listS);
+        request.setAttribute("listR", listR);
+        request.getRequestDispatcher("dashboard.jsp").forward(request, response);
     } 
 
     
